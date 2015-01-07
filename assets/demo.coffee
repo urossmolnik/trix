@@ -4,6 +4,8 @@
 
 window.trixDocuments = {}
 
+Trix.blockAttributes.default = tagName: "p"
+
 config =
   textarea: "text"
   toolbar: "toolbar"

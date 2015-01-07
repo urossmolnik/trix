@@ -1,6 +1,7 @@
 Trix.blockAttributes = attributes =
   default:
     tagName: "div"
+    keepTrailingNewline: true
     parse: false
   quote:
     tagName: "blockquote"

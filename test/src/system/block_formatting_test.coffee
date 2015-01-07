@@ -54,6 +54,10 @@ editorTest "breaking out of the middle of a block", (done) ->
           expectBlockAttributes([4, 6], ["quote"])
           done()
 
+editorTest "breaking out of block configured to keep trailing newlines", (expectDocument) ->
+  typeCharacters "abc\n\ndef", ->
+    expectDocument("abc\n\ndef\n")
+
 editorTest "deleting the only non-block-break character in a block", (done) ->
   typeCharacters "ab", ->
     clickToolbarButton attribute: "quote", ->

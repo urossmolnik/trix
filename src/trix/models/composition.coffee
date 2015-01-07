@@ -81,31 +81,26 @@ class Trix.Composition
   insertLineBreak: ->
     locationRange = @getLocationRange()
     block = @document.getBlockAtIndex(locationRange.end.index)
+    blockConfig = Trix.blockAttributes[block.getLastAttribute()] ? Trix.blockAttributes.default
 
-    if block.hasAttributes()
-      attributes = block.getAttributes()
-      blockConfig = Trix.blockAttributes[block.getLastAttribute()]
-      if blockConfig?.parentAttribute
-        if block.isEmpty()
-          @removeLastBlockAttribute()
-        else
-          @insertBlockBreak()
+    if blockConfig.parentAttribute
+      if block.isEmpty()
+        @removeLastBlockAttribute()
       else
-        text = block.text.getTextAtRange([0, locationRange.end.offset])
-        switch
-          # Remove block attributes
-          when block.isEmpty()
-            @removeLastBlockAttribute()
-          # Break out of block after a newline (and remove the newline)
-          when text.endsWithString("\n")
-            @expandSelectionInDirection("backward")
-            newBlock = block.removeLastAttribute().copyWithoutText()
-            @insertBlock(newBlock)
-          # Stay in the block, add a newline
-          else
-            @insertString("\n")
+        @insertBlockBreak()
     else
-      @insertString("\n")
+      text = block.text.getTextAtRange([0, locationRange.end.offset])
+      switch
+        # Remove block attributes
+        when block.isEmpty()
+          @removeLastBlockAttribute()
+        # Break out of block after a newline
+        when text.endsWithString("\n")
+          @expandSelectionInDirection("backward") unless blockConfig.keepTrailingNewline
+          @insertBlock(block.removeLastAttribute().copyWithoutText())
+        # Stay in the block, add a newline
+        else
+          @insertString("\n")
 
   insertHTML: (html) ->
     document = Trix.Document.fromHTML(html)

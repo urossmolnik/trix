@@ -37,7 +37,7 @@ class Trix.Block extends Trix.Object
     @copyWithAttributes attributes
 
   removeAttribute: (attribute) ->
-    {parentAttribute} = Trix.blockAttributes[attribute]
+    {parentAttribute} = Trix.blockAttributes[attribute] ? {}
     attributes = if parentAttribute
       @attributes.pop(attribute, parentAttribute)
     else
