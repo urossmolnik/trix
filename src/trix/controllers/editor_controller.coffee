@@ -171,6 +171,12 @@ class Trix.EditorController extends Trix.Controller
       @requestedRender = false
       @render()
 
+  inputControllerWillBeginComposition: ->
+    @renderWithCurrentAttributesPlaceholder()
+
+  inputControllerDidFinishComposition: ->
+    # ...
+
   inputControllerWillPerformTyping: ->
     @recordTypingUndoEntry()
 
@@ -332,7 +338,7 @@ class Trix.EditorController extends Trix.Controller
       @toolbarController.updateActions(@currentActions)
       @delegate?.didChangeActions?(@currentActions)
 
-  # Private
+  # Initialization
 
   createInputController: ->
     unless @inputController
@@ -346,16 +352,25 @@ class Trix.EditorController extends Trix.Controller
     @compositionController.delegate = this
     @render()
 
+  # Rendering and parsing
+
   reparse: ->
     @composition.replaceHTML(@documentElement.innerHTML)
 
   render: ->
     @compositionController.render()
 
+  renderWithCurrentAttributesPlaceholder: ->
+    @compositionController.renderWithCurrentAttributesPlaceholder()
+
+  # Attachment management
+
   removeAttachment: (attachment) ->
     @editor.recordUndoEntry("Delete Attachment")
     @composition.removeAttachment(attachment)
     @render()
+
+  # Undo management
 
   recordFormattingUndoEntry: ->
     locationRange = @selectionManager.getLocationRange()

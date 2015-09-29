@@ -31,10 +31,18 @@ class Trix.CompositionController extends Trix.BasicObject
     @delegate?.compositionControllerDidSelectAttachment?(attachment)
 
   render: benchmark "CompositionController#render", ->
-    unless @revision is @composition.revision
-      @documentView.setDocument(@composition.document)
+    @renderDocumentWithRevision(@composition.document, @composition.revision)
+
+  renderWithCurrentAttributesPlaceholder: ->
+    document = @composition.getDocumentWithCurrentAttributesPlaceholder()
+    @renderDocumentWithRevision(document, -1)
+
+  renderDocumentWithRevision: (document, revision) ->
+    console.log "renderDocumentWithRevision", document, revision
+    unless @revision is revision
+      @documentView.setDocument(document)
       @documentView.render()
-      @revision = @composition.revision
+      @revision = revision
 
     unless @documentView.isSynced()
       @delegate?.compositionControllerWillSyncDocumentView?()

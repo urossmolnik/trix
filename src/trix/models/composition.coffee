@@ -293,6 +293,10 @@ class Trix.Composition extends Trix.BasicObject
     attributes[key] = value for key, value of @currentAttributes when Trix.config.textAttributes[key]
     attributes
 
+  getDocumentWithCurrentAttributesPlaceholder: ->
+    text = Trix.Text.textForStringWithAttributes(Trix.ZERO_WIDTH_SPACE, @currentAttributes)
+    @document.insertTextAtRange(text, @getSelectedRange())
+
   # Selection freezing
 
   freezeSelection: ->

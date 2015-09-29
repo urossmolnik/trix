@@ -236,6 +236,7 @@ class Trix.InputController extends Trix.BasicObject
     compositionstart: (event) ->
       @mutationObserver.stop()
       @setInputSummary(composing: true, compositionStart: event.data)
+      @delegate?.inputControllerWillBeginComposition()
 
     compositionupdate: (event) ->
       @setInputSummary(composing: true, compositionUpdate: event.data)
@@ -244,6 +245,7 @@ class Trix.InputController extends Trix.BasicObject
       @mutationObserver.start()
       composedString = event.data
       @setInputSummary(composing: true, compositionEnd: composedString)
+      @delegate?.inputControllerDidFinishComposition()
 
       if composedString? and composedString isnt @inputSummary.compositionStart
         @delegate?.inputControllerWillPerformTyping()
