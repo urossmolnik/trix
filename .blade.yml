@@ -20,18 +20,22 @@ build:
 plugins:
   sauce_labs:
     browsers:
-      Google Chrome:
-        os: Mac, Windows
-        version: -2
-      Firefox:
-        os: Mac, Windows
-        version: -2
       Safari:
         platform: Mac
         version: -3
+      Google Chrome:
+        os: Mac, Windows, Linux
+        version: -2
+      Firefox:
+        os: Mac, Windows, Linux
+        version: -2
       Internet Explorer:
         version: -1
-      iPhone:
-        version: [9.1, 8.4]
       Motorola Droid 4 Emulator:
-        version: [5.1, 4.4]
+        version: [5.1, 5.0, 4.4]
+      iPhone:
+        version: [9.1, 9.0, 8.4, 7.1]
+    test_config:
+      video_upload_on_pass: false
+      record_screenshots: false
+      record_logs: false
