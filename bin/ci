@@ -2,7 +2,7 @@
 
 start_fold() {
   if [ "$TRAVIS" == "true" ]; then
-    echo -e "travis_fold:start:$1\r"
+    echo -en "travis_fold:start:$1\r"
   else
     echo "--- $1"
   fi
@@ -10,7 +10,7 @@ start_fold() {
 
 end_fold() {
   if [ "$TRAVIS" == "true" ]; then
-    echo -e "travis_fold:end:$1\r"
+    echo -en "travis_fold:end:$1\r"
   fi
 }
 
