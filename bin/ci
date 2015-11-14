@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Hello?"
+
 start_fold() {
   if [ "$TRAVIS" == "true" ]; then
     echo -en "travis_fold:start:$1\r"
