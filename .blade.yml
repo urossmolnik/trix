@@ -36,6 +36,7 @@ plugins:
       iPhone:
         version: [9.1, 9.0, 8.4, 7.1]
     test_config:
+      selenium_version: 2.47.1
       video_upload_on_pass: false
       record_screenshots: false
       record_logs: false
