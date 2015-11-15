@@ -1,21 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Hello?"
-
-start_fold() {
-  if [ "$TRAVIS" == "true" ]; then
-    echo -en "travis_fold:start:$1\r"
-  else
-    echo "--- $1"
-  fi
-}
-
-end_fold() {
-  if [ "$TRAVIS" == "true" ]; then
-    echo -en "travis_fold:end:$1\r"
-  fi
-}
-
 if [ "$TRAVIS_REPO_SLUG" == "basecamp/trix" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   $(base64 --decode <<< ZXhwb3J0IFNBVUNFX1VTRVJOQU1FPWJhc2VjYW1wX3RyaXgK)
   $(base64 --decode <<< ZXhwb3J0IFNBVUNFX0FDQ0VTU19LRVk9MjY3OGE4NzMtNzJmNC00NzU2LTkzYjUtZjFhOGUyZTc3ODIxCg==)
@@ -25,14 +9,12 @@ else
   export BUILD=""
 fi
 
-start_fold "Desktop"
+echo "--- Desktop"
 DESKTOP=TRUE bin/blade ci
 DESKTOP_EXIT=$?
-end_fold "Desktop"
 
-start_fold "Mobile"
+echo "--- Mobile"
 MOBILE=true bin/blade ci
 MOBILE_EXIT=$?
-end_fold "Mobile"
 
 [ "$DESKTOP_EXIT" == 0 ] && [ "$MOBILE_EXIT" == 0 ]
