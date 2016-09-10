@@ -230,6 +230,8 @@ class Trix.InputController extends Trix.BasicObject
 
       if not paste? or pasteEventIsCrippledSafariHTMLPaste(event)
         @getPastedHTMLUsingHiddenElement (html) =>
+          if Trix.stripHtmlOnPaste
+            html = Trix.stripHtmlOnPaste(html) # uross - added custom paste stripper
           pasteData.html = html
           @delegate?.inputControllerWillPasteText(pasteData)
           @responder?.insertHTML(html)
@@ -247,6 +249,8 @@ class Trix.InputController extends Trix.BasicObject
         @delegate?.inputControllerDidPaste(pasteData)
 
       else if html = paste.getData("text/html")
+        if Trix.stripHtmlOnPaste
+          html = Trix.stripHtmlOnPaste(html) # uross - added custom paste stripper
         pasteData.html = html
         @delegate?.inputControllerWillPasteText(pasteData)
         @responder?.insertHTML(html)
@@ -261,15 +265,15 @@ class Trix.InputController extends Trix.BasicObject
         @requestRender()
         @delegate?.inputControllerDidPaste(pasteData)
 
-      else if "Files" in paste.types
-        if file = paste.items?[0]?.getAsFile?()
-          if not file.name and extension = extensionForFile(file)
-            file.name = "pasted-file-#{++pastedFileCount}.#{extension}"
-          pasteData.file = file
-          @delegate?.inputControllerWillAttachFiles()
-          @responder?.insertFile(file)
-          @requestRender()
-          @delegate?.inputControllerDidPaste(pasteData)
+      # else if "Files" in paste.types
+      #   if file = paste.items?[0]?.getAsFile?()
+      #     if not file.name and extension = extensionForFile(file)
+      #       file.name = "pasted-file-#{++pastedFileCount}.#{extension}"
+      #     pasteData.file = file
+      #     @delegate?.inputControllerWillAttachFiles()
+      #     @responder?.insertFile(file)
+      #     @requestRender()
+      #     @delegate?.inputControllerDidPaste(pasteData)
 
       event.preventDefault()
 
